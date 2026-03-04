@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta de Inversión — Hub CUEVA Menorca · OADAC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#080B10;--dark:#0C1017;--dark2:#111620;
+  --white:#FFFFFF;--off:#F8F9FA;--soft:#F1F2F4;--mist:#E4E6EA;--line:#D8DBE0;--line2:#C8CCD2;
+  --text:#080B10;--text2:#4A5260;--text3:#8B929A;--text4:#B0B6BE;
+  --accent:#C4533A;--accent-d:rgba(196,83,58,.07);--accent-l:rgba(196,83,58,.18);
+  --font:'Instrument Sans',sans-serif;
+  --serif:'Instrument Serif',serif;
+  --mono:'IBM Plex Mono',monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--black);color:#fff}
+a{text-decoration:none;color:inherit}
+
+/* ── LOADER ── */
+.ld{position:fixed;inset:0;z-index:99999;background:var(--white);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .7s var(--ease),visibility .7s}
+.ld.done{opacity:0;visibility:hidden;pointer-events:none}
+.ld-shape{width:52px;height:52px;border:1px solid var(--black);border-radius:10px;position:relative;margin-bottom:1.6rem;animation:ldMorph 2.5s ease-in-out infinite}
+.ld-shape::before{content:'';position:absolute;width:18px;height:18px;border:1px solid var(--text3);border-radius:4px;top:8px;left:8px;animation:ldSpin 3s linear infinite}
+.ld-shape::after{content:'';position:absolute;width:14px;height:14px;border:1px solid var(--accent);border-radius:3px;bottom:8px;right:8px;animation:ldSpin 3s linear infinite reverse}
+.ld-label{font-family:var(--mono);font-size:.6rem;letter-spacing:5px;color:var(--text3);text-transform:uppercase;opacity:0;animation:ldFade .5s .6s forwards}
+.ld-sub{font-family:var(--mono);font-size:.45rem;letter-spacing:2px;color:var(--text4);text-transform:uppercase;margin-top:.3rem;opacity:0;animation:ldFade .5s .9s forwards}
+.ld-bar{width:100px;height:1px;background:var(--mist);margin-top:1.4rem;overflow:hidden;opacity:0;animation:ldFade .4s 1s forwards}
+.ld-fill{height:100%;width:0;background:var(--black);animation:ldBar 1.6s 1.2s var(--ease) forwards}
+
+/* ── SCROLL BAR ── */
+#sbar{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:99998;width:0}
+
+/* ── GRID ── */
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0}
+.grid-v{position:absolute;top:0;bottom:0;width:1px;background:var(--mist)}
+.grid-v:nth-child(1){left:16.666%}.grid-v:nth-child(2){left:33.333%}.grid-v:nth-child(3){left:50%}.grid-v:nth-child(4){left:66.666%}.grid-v:nth-child(5){left:83.333%}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;width:100%;z-index:9999;
+  padding:.85rem 2.5rem;display:flex;justify-content:space-between;align-items:center;
+  transition:all .4s var(--ease);
+}
+nav.scrolled{
+  background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.n-logo{display:flex;align-items:center;gap:.6rem}
+.n-icon{width:28px;height:28px;border:1px solid var(--black);border-radius:7px;display:flex;align-items:center;justify-content:center;animation:iconMorph 10s ease-in-out infinite;flex-shrink:0;position:relative}
+.n-icon::before{content:'';width:9px;height:9px;border:1px solid var(--text3);border-radius:3px;animation:iconSpin 6s linear infinite}
+.n-name{font-family:var(--mono);font-size:.65rem;font-weight:700;letter-spacing:4px;color:var(--black);text-transform:uppercase}
+.n-links{display:flex;align-items:center;gap:0}
+.n-links a{font-family:var(--mono);font-size:.5rem;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);padding:.4rem .7rem;transition:color .3s}
+.n-links a:hover{color:var(--black)}
+.n-conf{font-family:var(--mono);font-size:.46rem;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent);padding:.28rem .8rem;border-radius:2px}
+
+/* ── KEYFRAMES ── */
+@keyframes ldMorph{0%,100%{border-radius:10px;transform:rotate(0)}33%{border-radius:50%;transform:rotate(120deg)}66%{border-radius:3px;transform:rotate(240deg)}}
+@keyframes ldSpin{to{transform:rotate(360deg)}}
+@keyframes ldFade{to{opacity:1}}
+@keyframes ldBar{to{width:100%}}
+@keyframes iconMorph{0%,100%{border-radius:7px}33%{border-radius:50%}66%{border-radius:2px}}
+@keyframes iconSpin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes mqScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes barGrow{from{height:0}to{height:var(--h)}}
+@keyframes trackIn{from{width:0}to{width:var(--w)}}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv.vis{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}
+.d4{transition-delay:.28s}.d5{transition-delay:.35s}.d6{transition-delay:.42s}
+
+/* ── HELPERS ── */
+.wrap{max-width:1200px;margin:0 auto;padding:0 2.5rem}
+.sec{padding:6rem 0;position:relative;z-index:2}
+.hl{height:1px;background:var(--line);max-width:1200px;margin:0 auto;position:relative;z-index:2}
+
+.lbl{font-family:var(--mono);font-size:.5rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem}
+.lbl::before{content:'';width:18px;height:1px;background:var(--accent)}
+
+.sh{font-family:var(--font);font-size:clamp(1.9rem,4.2vw,3.2rem);font-weight:700;letter-spacing:-1.8px;line-height:1.07;color:var(--black)}
+.sh em{font-family:var(--serif);font-style:italic;color:var(--accent)}
+.sp{font-size:.84rem;color:var(--text2);line-height:1.85;max-width:480px;margin-top:.5rem}
+
+.btn{font-family:var(--mono);font-size:.56rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:.65rem 1.4rem;border-radius:2px;transition:all .3s var(--ease);border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem}
+.btn-dk{background:var(--black);color:#fff}
+.btn-dk:hover{background:var(--accent);transform:translateY(-2px)}
+.btn-lt{background:transparent;color:var(--black);border:1px solid var(--line2)}
+.btn-lt:hover{border-color:var(--black);transform:translateY(-2px)}
+
+/* ════════════════════
+   1. HERO
+════════════════════ */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  background:var(--white);padding-top:5.5rem;
+  position:relative;overflow:hidden;
+}
+/* Big decorative letter */
+.hero-dec{
+  position:absolute;right:-1rem;bottom:-2rem;
+  font-family:var(--serif);font-size:28vw;font-weight:400;font-style:italic;
+  color:rgba(8,11,16,.03);line-height:1;pointer-events:none;user-select:none;
+}
+.hero-body{
+  flex:1;display:grid;grid-template-columns:1fr 1fr;
+  gap:0;max-width:1200px;width:100%;margin:0 auto;
+  padding:3rem 2.5rem 0;align-items:start;
+}
+.hero-l{padding-right:3rem}
+.h-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--mono);font-size:.46rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text3);border:1px solid var(--line);
+  padding:.3rem .8rem;border-radius:2px;margin-bottom:1.2rem;
+  animation:fadeUp .8s .3s var(--ease) both;
+}
+.h-badge .dot{width:5px;height:5px;background:var(--accent);border-radius:50%;animation:blink 2s ease-in-out infinite}
+#hero h1{
+  font-family:var(--font);font-size:clamp(2.5rem,5.2vw,4.2rem);
+  font-weight:700;line-height:1.04;letter-spacing:-2.5px;color:var(--black);
+  animation:fadeUp .9s .5s var(--ease) both;
+}
+#hero h1 em{font-family:var(--serif);font-style:italic;color:var(--accent)}
+.hero-desc{
+  font-size:.87rem;color:var(--text2);line-height:1.88;
+  max-width:430px;margin-top:1.2rem;
+  animation:fadeUp .8s .7s var(--ease) both;
+}
+.hero-btns{
+  display:flex;gap:.5rem;margin-top:1.6rem;
+  animation:fadeUp .8s .9s var(--ease) both;flex-wrap:wrap;
+}
+/* KPI strip */
+.hero-kpi{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--line);border-radius:2px;overflow:hidden;
+  margin-top:2rem;animation:fadeUp .8s 1.1s var(--ease) both;
+}
+.hk{padding:.85rem .6rem;text-align:center;border-right:1px solid var(--line);transition:background .2s}
+.hk:last-child{border-right:none}
+.hk:hover{background:var(--off)}
+.hk strong{font-family:var(--mono);font-size:1.05rem;font-weight:700;color:var(--black);display:block}
+.hk span{font-family:var(--mono);font-size:.38rem;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+
+/* Hero right — image + card */
+.hero-r{
+  position:relative;animation:fadeUp 1s .5s var(--ease) both;
+}
+.hero-img-wrap{
+  width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:2px;
+  position:relative;background:var(--soft);border:1px solid var(--line);
+}
+.hero-img-wrap video,.hero-img-wrap img{
+  width:100%;height:100%;object-fit:cover;
+}
+.hero-img-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(8,11,16,.3) 0%,transparent 45%);
+  pointer-events:none;
+}
+.hero-img-tag{
+  position:absolute;bottom:.6rem;left:.6rem;
+  font-family:var(--mono);font-size:.42rem;letter-spacing:2px;text-transform:uppercase;
+  color:#fff;background:rgba(8,11,16,.7);backdrop-filter:blur(8px);
+  padding:.22rem .55rem;border-radius:2px;
+}
+.hero-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:.35rem;margin-top:.35rem}
+.hm{
+  background:var(--off);border:1px solid var(--line);border-radius:2px;
+  padding:.55rem;text-align:center;transition:all .2s;
+}
+.hm:hover{border-color:var(--line2)}
+.hm strong{font-family:var(--mono);font-size:.5rem;font-weight:700;color:var(--black);display:block}
+.hm span{font-size:.42rem;color:var(--text3)}
+
+/* KPI summary card below hero */
+.hero-data{
+  background:var(--black);margin-top:auto;
+  display:grid;grid-template-columns:repeat(6,1fr);
+}
+.hd{
+  padding:1.2rem 1rem;text-align:center;
+  border-right:1px solid rgba(255,255,255,.06);
+  transition:background .2s;
+}
+.hd:last-child{border-right:none}
+.hd:hover{background:rgba(255,255,255,.03)}
+.hd strong{font-family:var(--mono);font-size:1.15rem;font-weight:700;color:#fff;display:block;letter-spacing:-.5px}
+.hd span{font-family:var(--mono);font-size:.38rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.25)}
+.hd.acc strong{color:var(--accent)}
+
+/* ── MARQUEE ── */
+.mq{
+  overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:.5rem 0;background:var(--off);position:relative;z-index:2;
+}
+.mq-t{display:flex;animation:mqScroll 45s linear infinite;width:max-content}
+.mq-i{
+  font-family:var(--mono);font-size:.43rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text3);padding:0 1.8rem;white-space:nowrap;
+  display:flex;align-items:center;gap:1.8rem;
+}
+.mq-d{width:3px;height:3px;background:var(--accent);flex-shrink:0;border-radius:50%}
+
+/* ════════════════════
+   2. OPORTUNIDAD
+════════════════════ */
+#oportunidad{background:var(--white)}
+.opp-head{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:2.8rem}
+.opp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.4rem}
+.opp-c{
+  background:var(--white);border:1px solid var(--line);border-radius:2px;
+  padding:1.7rem;transition:all .4s var(--ease);position:relative;overflow:hidden;
+}
+.opp-c::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--black);transform:scaleX(0);transform-origin:left;
+  transition:transform .4s var(--ease);
+}
+.opp-c:hover::after{transform:scaleX(1)}
+.opp-c:hover{border-color:var(--line2);transform:translateY(-3px)}
+.opp-n{font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--mist);line-height:1;margin-bottom:.5rem}
+.opp-c h3{font-size:.9rem;font-weight:700;color:var(--black);letter-spacing:-.2px;margin-bottom:.4rem}
+.opp-c p{font-size:.72rem;color:var(--text2);line-height:1.65}
+.opp-stat{display:flex;align-items:baseline;gap:.4rem;margin-top:.9rem;padding-top:.7rem;border-top:1px solid var(--line)}
+.opp-stat strong{font-family:var(--mono);font-size:1.05rem;font-weight:700;color:var(--black)}
+.opp-stat span{font-family:var(--mono);font-size:.4rem;letter-spacing:.5px;text-transform:uppercase;color:var(--text3)}
+
+/* image feature */
+.opp-img-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:.4rem;
+  margin-bottom:.4rem;
+}
+.opp-img{
+  position:relative;overflow:hidden;border-radius:2px;
+  border:1px solid var(--line);aspect-ratio:4/3;
+}
+.opp-img img{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .8s var(--ease);filter:grayscale(.1)}
+.opp-img:hover img{transform:scale(1.03);filter:grayscale(0)}
+.opp-img-tag{
+  position:absolute;top:.5rem;left:.5rem;
+  font-family:var(--mono);font-size:.42rem;letter-spacing:2px;text-transform:uppercase;
+  color:#fff;background:var(--black);padding:.2rem .5rem;border-radius:2px;font-weight:600;
+}
+
+/* Stats strip */
+.opp-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--black);border-radius:2px;overflow:hidden;
+}
+.os{
+  padding:1.4rem 1rem;text-align:center;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+.os:last-child{border-right:none}
+.os strong{font-family:var(--mono);font-size:1.5rem;font-weight:700;color:#fff;display:block;letter-spacing:-.5px}
+.os em{font-family:var(--mono);font-size:.38rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.25);font-style:normal}
+.os .tag{
+  display:inline-block;margin-top:.45rem;font-family:var(--mono);font-size:.38rem;
+  letter-spacing:.3px;text-transform:uppercase;padding:.1rem .4rem;
+  color:var(--accent);border:1px solid rgba(196,83,58,.3);border-radius:1px;
+}
+
+/* ════════════════════
+   3. TECNOLOGÍA
+════════════════════ */
+#tech{background:var(--off)}
+.tech-top{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:2.5rem}
+.tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.tech-items{display:flex;flex-direction:column;gap:.4rem}
+.ti{
+  background:var(--white);border:1px solid var(--line);border-radius:2px;
+  padding:1.4rem;display:grid;grid-template-columns:auto 1fr;gap:1rem;
+  transition:all .35s var(--ease);position:relative;overflow:hidden;
+}
+.ti::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);transform:scaleY(0);transform-origin:top;transition:transform .35s var(--ease)}
+.ti:hover::before{transform:scaleY(1)}
+.ti:hover{border-color:var(--line2);transform:translateX(3px)}
+.ti-n{font-family:var(--mono);font-size:.5rem;font-weight:700;color:var(--text3);letter-spacing:1px;padding-top:.05rem}
+.ti-body h4{font-size:.86rem;font-weight:700;color:var(--black);margin-bottom:.2rem}
+.ti-body p{font-size:.7rem;color:var(--text2);line-height:1.55}
+.ti-price{font-family:var(--mono);font-size:.82rem;font-weight:700;color:var(--accent);margin-top:.35rem}
+.ti-tags{display:flex;flex-wrap:wrap;gap:.2rem;margin-top:.35rem}
+.ti-tag{font-family:var(--mono);font-size:.38rem;letter-spacing:.4px;text-transform:uppercase;padding:.1rem .38rem;border:1px solid var(--line);color:var(--text3);border-radius:1px}
+
+/* Feature panel */
+.tech-panel{display:flex;flex-direction:column;gap:.4rem}
+.tp-main{
+  background:var(--black);border-radius:2px;padding:2.2rem;
+  position:relative;overflow:hidden;flex:1;
+}
+.tp-main::before{
+  content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;
+  border-radius:50%;background:radial-gradient(circle,rgba(196,83,58,.1),transparent 70%);
+}
+.tp-main h3{font-size:1.35rem;font-weight:700;color:#fff;letter-spacing:-.4px;margin-bottom:.5rem}
+.tp-main h3 em{font-family:var(--serif);font-style:italic;color:var(--accent)}
+.tp-main p{font-size:.7rem;color:rgba(255,255,255,.38);line-height:1.72;margin-bottom:1rem}
+.tp-list{display:flex;flex-direction:column;gap:.25rem}
+.tp-li{
+  font-size:.7rem;color:rgba(255,255,255,.5);
+  display:flex;align-items:center;gap:.55rem;
+  padding:.28rem 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.tp-li:last-child{border-bottom:none}
+.tp-li::before{content:'';width:12px;height:1px;background:var(--accent);flex-shrink:0}
+
+/* Image pair */
+.tp-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.tp-img{
+  aspect-ratio:4/3;overflow:hidden;border-radius:2px;
+  border:1px solid var(--line);position:relative;
+}
+.tp-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);filter:grayscale(.2)}
+.tp-img:hover img{transform:scale(1.04);filter:grayscale(0)}
+.tp-img-lbl{
+  position:absolute;bottom:.4rem;left:.4rem;
+  font-family:var(--mono);font-size:.38rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:#fff;background:rgba(8,11,16,.72);backdrop-filter:blur(6px);
+  padding:.18rem .45rem;border-radius:1px;
+}
+
+/* Metrics */
+.tp-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}
+.tm{background:var(--white);border:1px solid var(--line);border-radius:2px;padding:.9rem;text-align:center;transition:all .3s}
+.tm:hover{border-color:var(--line2);transform:translateY(-2px)}
+.tm strong{font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--black);display:block}
+.tm span{font-family:var(--mono);font-size:.38rem;letter-spacing:.5px;text-transform:uppercase;color:var(--text3)}
+
+/* ════════════════════
+   4. ESTRUCTURA
+════════════════════ */
+#modelo{background:var(--white)}
+.modelo-head{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:2.5rem}
+.modelo-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem}
+.mc{
+  border:1px solid var(--line);border-radius:2px;padding:1.8rem;
+  position:relative;overflow:hidden;transition:all .35s;
+}
+.mc:hover{border-color:var(--line2)}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.mc:nth-child(1)::before{background:var(--accent)}
+.mc:nth-child(2)::before{background:var(--black)}
+.mc-badge{
+  display:inline-block;font-family:var(--mono);font-size:.42rem;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);
+  border:1px solid var(--line);padding:.18rem .55rem;border-radius:1px;margin-bottom:.8rem;
+}
+.mc h3{font-size:1.05rem;font-weight:700;color:var(--black);letter-spacing:-.3px;margin-bottom:.5rem}
+.mc p{font-size:.72rem;color:var(--text2);line-height:1.72;margin-bottom:.8rem}
+.mc-list{display:flex;flex-direction:column;gap:.22rem}
+.mc-li{
+  font-size:.7rem;color:var(--text2);display:flex;align-items:center;gap:.5rem;
+  padding:.2rem 0;border-bottom:1px solid var(--line);
+}
+.mc-li:last-child{border-bottom:none}
+.mc-li::before{content:'';width:10px;height:1px;background:var(--accent);flex-shrink:0}
+
+/* Shareholding */
+.sh-wrap{border:1px solid var(--line);border-radius:2px;padding:1.8rem;margin-bottom:.4rem}
+.sh-title{font-family:var(--mono);font-size:.44rem;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:1.2rem}
+.sh-rows{display:flex;flex-direction:column;gap:.8rem}
+.sh-row{display:flex;align-items:center;gap:.8rem}
+.sh-label{font-family:var(--mono);font-size:.6rem;color:var(--text2);min-width:180px}
+.sh-label.inv-label{color:var(--black);font-weight:700}
+.sh-track{flex:1;height:4px;background:var(--mist);border-radius:2px;overflow:hidden}
+.sh-fill{height:100%;border-radius:2px;transition:width 1s var(--ease)}
+.sh-fill.oadac{background:var(--black)}
+.sh-fill.inv{background:var(--accent)}
+.sh-fill.blau{background:#3B82F6}
+.sh-fill.priv{background:var(--text4)}
+.sh-pct{font-family:var(--mono);font-size:.7rem;font-weight:700;color:var(--text2);min-width:32px;text-align:right}
+.sh-pct.inv-pct{color:var(--accent)}
+
+/* Destination */
+.dest-wrap{border:1px solid var(--line);border-radius:2px;padding:1.5rem}
+.dest-title{font-family:var(--mono);font-size:.44rem;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:1rem}
+.dest-rows{display:flex;flex-direction:column;gap:.6rem}
+.dest-row{display:flex;align-items:center;gap:.8rem}
+.dest-lbl{font-size:.68rem;color:var(--text2);min-width:175px}
+.dest-track{flex:1;height:5px;background:var(--mist);border-radius:2px;overflow:hidden}
+.dest-bar{height:100%;border-radius:2px;background:var(--black)}
+.dest-amt{font-family:var(--mono);font-size:.65rem;font-weight:700;color:var(--text);min-width:55px;text-align:right}
+
+/* Islands */
+.islands{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:.4rem}
+.isl{
+  border:1px solid var(--line);border-radius:2px;padding:1.4rem;
+  transition:all .4s var(--ease);position:relative;overflow:hidden;
+}
+.isl::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.isl:nth-child(1)::before{background:var(--accent)}
+.isl:nth-child(2)::before{background:#3B82F6}
+.isl:nth-child(3)::before{background:#22C55E}
+.isl:hover{border-color:var(--line2);transform:translateY(-2px)}
+.isl h4{font-size:.9rem;font-weight:700;color:var(--black);letter-spacing:-.2px}
+.isl .i-sub{font-family:var(--mono);font-size:.42rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-top:.06rem}
+.isl p{font-size:.65rem;color:var(--text2);line-height:1.55;margin-top:.4rem}
+.isl-tag{font-family:var(--mono);font-size:.42rem;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);display:inline-block;margin-top:.5rem;border:1px solid var(--accent-l);padding:.1rem .38rem;border-radius:1px}
+
+/* ════════════════════
+   5. PROYECCIONES
+════════════════════ */
+#finanzas{background:var(--off)}
+.fin-head{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:2.5rem}
+
+/* Chart */
+.chart-box{
+  background:var(--white);border:1px solid var(--line);border-radius:2px;padding:1.8rem;
+  position:relative;margin-bottom:.4rem;
+}
+.chart-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.4;
+}
+.chart-title{font-family:var(--mono);font-size:.44rem;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:1.4rem}
+.bar-chart{display:flex;align-items:flex-end;gap:.7rem;height:180px;position:relative}
+.bar-chart::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--line)}
+.bc-group{flex:1;display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.bc-bars{display:flex;gap:3px;align-items:flex-end;height:162px;width:100%;justify-content:center}
+.bc-bar{
+  border-radius:2px 2px 0 0;transition:opacity .2s;min-width:20px;flex:1;max-width:48px;
+  position:relative;
+}
+.bc-bar:hover{opacity:.8}
+.bc-bar.rev{background:var(--black)}
+.bc-bar.eb{background:var(--accent)}
+.bc-tip{
+  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:.36rem;color:var(--text3);white-space:nowrap;
+  opacity:0;transition:opacity .2s;
+}
+.bc-bar:hover .bc-tip{opacity:1}
+.bc-year{font-family:var(--mono);font-size:.42rem;letter-spacing:.4px;text-transform:uppercase;color:var(--text3)}
+
+.chart-legend{display:flex;gap:1.2rem;margin-top:.9rem}
+.cl{display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.42rem;letter-spacing:.4px;text-transform:uppercase;color:var(--text3)}
+.cl-d{width:8px;height:8px;border-radius:1px}
+.cl-d.rev{background:var(--black)}
+.cl-d.eb{background:var(--accent)}
+
+/* KPI boxes */
+.fin-kpis{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.4rem}
+.fk{
+  background:var(--white);border:1px solid var(--line);border-radius:2px;padding:1.2rem;
+  transition:all .3s;
+}
+.fk:hover{border-color:var(--line2);transform:translateY(-2px)}
+.fk strong{font-family:var(--mono);font-size:1.45rem;font-weight:700;color:var(--black);display:block;letter-spacing:-1px;line-height:1.1}
+.fk span{font-family:var(--mono);font-size:.4rem;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+.fk .fk-sub{font-size:.65rem;color:var(--text2);margin-top:.2rem}
+
+/* Table */
+.table-wrap{border:1px solid var(--line);border-radius:2px;overflow:hidden;grid-column:1 / -1}
+.table-header{background:var(--black);padding:.75rem 1.4rem;font-family:var(--mono);font-size:.42rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3)}
+table{width:100%;border-collapse:collapse}
+th{background:rgba(8,11,16,.04);color:var(--text3);padding:.7rem 1rem;font-family:var(--mono);font-size:.42rem;font-weight:600;letter-spacing:.4px;text-transform:uppercase;text-align:right;border-bottom:1px solid var(--line)}
+th:first-child{text-align:left;color:var(--text2)}
+td{padding:.72rem 1rem;font-family:var(--mono);font-size:.7rem;border-bottom:1px solid var(--line);text-align:right;color:var(--text2)}
+td:first-child{text-align:left;font-family:var(--font);font-size:.74rem;font-weight:600;color:var(--black)}
+tr:hover td{background:var(--off)}
+.td-pos{color:var(--green,#15803D);font-weight:600}
+.td-acc{color:var(--accent);font-weight:700}
+.tr-total{background:var(--accent-d)!important}
+.tr-total td{font-weight:700;border-bottom:none}
+.tr-total td:first-child{color:var(--black)}
+
+/* ════════════════════
+   6. TU INVERSIÓN
+════════════════════ */
+#inversion{background:var(--white)}
+.inv-top{
+  background:var(--black);border-radius:2px;padding:3rem 2.5rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:3rem;
+  align-items:center;margin-bottom:.4rem;
+}
+.inv-top-l .lbl{color:rgba(255,255,255,.25)}
+.inv-top-l .lbl::before{background:rgba(255,255,255,.2)}
+.inv-amount{
+  font-family:var(--mono);font-size:clamp(3.5rem,8vw,6.5rem);
+  font-weight:700;letter-spacing:-4px;line-height:1;
+  color:#fff;display:block;margin:.4rem 0 .4rem;
+}
+.inv-top-l p{font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.7;max-width:380px}
+.inv-top-r{display:flex;flex-direction:column;gap:.4rem}
+.inv-card{
+  border:1px solid rgba(255,255,255,.08);border-radius:2px;padding:1.4rem;
+  position:relative;overflow:hidden;
+}
+.inv-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px}
+.inv-card:nth-child(1)::before{background:var(--accent)}
+.inv-card:nth-child(2)::before{background:rgba(255,255,255,.2)}
+.inv-type{font-family:var(--mono);font-size:.42rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:.6rem}
+.inv-amt{font-family:var(--mono);font-size:2.4rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1;margin-bottom:.4rem}
+.inv-card h4{font-size:.86rem;font-weight:700;color:#fff;margin-bottom:.3rem}
+.inv-card p{font-size:.68rem;color:rgba(255,255,255,.32);line-height:1.68}
+
+/* Returns grid */
+.ret-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.4rem}
+.ret{
+  border:1px solid var(--line);border-radius:2px;padding:1.6rem;
+  transition:all .4s var(--ease);position:relative;overflow:hidden;
+}
+.ret:hover{border-color:var(--line2);transform:translateY(-3px)}
+.ret::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--black);transform:scaleX(0);transform-origin:left;
+  transition:transform .4s var(--ease);
+}
+.ret:hover::after{transform:scaleX(1)}
+.ret-n{font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--mist);line-height:1;margin-bottom:.4rem}
+.ret h4{font-size:.88rem;font-weight:700;color:var(--black);letter-spacing:-.2px;margin-bottom:.3rem}
+.ret p{font-size:.68rem;color:var(--text2);line-height:1.55}
+.ret-amt{font-family:var(--mono);font-size:1rem;font-weight:700;color:var(--accent);margin-top:.6rem;display:block}
+
+/* Returns table */
+.rt-wrap{border:1px solid var(--line);border-radius:2px;overflow:hidden;margin-bottom:.4rem}
+.rt-hdr{background:var(--black);padding:.7rem 1.4rem;font-family:var(--mono);font-size:.42rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.rt-total{background:var(--accent-d)!important}
+.rt-total td{font-weight:700!important;color:var(--accent)!important;border-bottom:none}
+.rt-total td:first-child{color:var(--black)!important}
+
+/* ROI strip */
+.roi-strip{
+  border:1px solid var(--line);border-radius:2px;
+  display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;
+  margin-bottom:.4rem;
+}
+.roi-i{
+  padding:1.4rem 1rem;text-align:center;
+  border-right:1px solid var(--line);transition:background .2s;
+}
+.roi-i:last-child{border-right:none}
+.roi-i:hover{background:var(--off)}
+.roi-i strong{font-family:var(--mono);font-size:1.6rem;font-weight:700;color:var(--black);display:block;letter-spacing:-.8px}
+.roi-i span{font-family:var(--mono);font-size:.38rem;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+.roi-i.hl strong{color:var(--accent)}
+.roi-i.hl2 strong{color:#15803D}
+
+/* Vote box */
+.vote{
+  border:1px solid var(--line);border-radius:2px;padding:1.6rem;
+  display:flex;align-items:center;gap:1.4rem;
+}
+.vote-ic{font-size:1.8rem;flex-shrink:0}
+.vote h4{font-size:.88rem;font-weight:700;color:var(--black);margin-bottom:.25rem}
+.vote p{font-size:.7rem;color:var(--text2);line-height:1.65}
+
+/* ── FOOTER ── */
+footer{background:var(--black);border-top:1px solid var(--line);position:relative;z-index:2}
+.ftr-grid{
+  max-width:1200px;margin:0 auto;padding:2.8rem 2.5rem 1.5rem;
+  display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:3rem;
+  border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:1.5rem;
+}
+.ftr-brand{display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem}
+.ftr-brand span{font-family:var(--mono);font-size:.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#fff}
+.ftr-desc{font-size:.68rem;color:rgba(255,255,255,.25);line-height:1.75}
+.ftr-col h5{font-family:var(--mono);font-size:.44rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem}
+.ftr-col a{display:block;font-size:.68rem;color:rgba(255,255,255,.25);margin-bottom:.45rem;transition:color .2s}
+.ftr-col a:hover{color:rgba(255,255,255,.75)}
+.ftr-bot{
+  max-width:1200px;margin:0 auto;padding:0 2.5rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.ftr-copy{font-family:var(--mono);font-size:.44rem;letter-spacing:.5px;color:rgba(255,255,255,.15)}
+.ftr-conf{
+  font-family:var(--mono);font-size:.44rem;letter-spacing:1px;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(196,83,58,.3);
+  padding:.25rem .7rem;border-radius:1px;display:flex;align-items:center;gap:.4rem;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1000px){
+  .hero-body,.tech-grid,.modelo-grid,.fin-head,.opp-head,.modelo-head,.tech-top,.inv-top{grid-template-columns:1fr;gap:2rem}
+  .hero-l{padding-right:0}
+  .opp-grid,.islands,.ret-grid,.fin-kpis,.roi-strip{grid-template-columns:1fr 1fr}
+  .hero-data,.opp-stats{grid-template-columns:repeat(3,1fr)}
+  .hero-kpi,.tp-metrics{grid-template-columns:1fr 1fr}
+  .n-links a:not(.n-conf){display:none}
+  .ftr-grid{grid-template-columns:1fr 1fr}
+  .opp-img-row{grid-template-columns:1fr}
+  .tp-img-grid{grid-template-columns:1fr}
+  .inv-top-r{flex-direction:row}
+}
+@media(max-width:640px){
+  .opp-grid,.islands,.ret-grid,.fin-kpis,.roi-strip,.hero-data,.opp-stats,.inv-top-r{grid-template-columns:1fr}
+  .hero-kpi{grid-template-columns:1fr 1fr}
+  .sec{padding:4rem 0}
+  .ftr-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="ld" id="ld">
+  <div class="ld-shape"></div>
+  <div class="ld-label">OADAC</div>
+  <div class="ld-sub">Hub CUEVA Menorca · Propuesta de Inversión</div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+</div>
+
+<div id="sbar"></div>
+<div class="grid-bg">
+  <div class="grid-v"></div><div class="grid-v"></div>
+  <div class="grid-v"></div><div class="grid-v"></div><div class="grid-v"></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="n-logo" href="#hero">
+    <div class="n-icon"></div>
+    <span class="n-name">OADAC</span>
+  </a>
+  <div class="n-links">
+    <a href="#oportunidad">Oportunidad</a>
+    <a href="#tech">Tecnología</a>
+    <a href="#modelo">Estructura</a>
+    <a href="#finanzas">Finanzas</a>
+    <a href="#inversion">Inversión</a>
+    <span class="n-conf">Confidencial</span>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero">
+  <div class="hero-dec">C</div>
+  <div class="hero-body">
+    <div class="hero-l">
+      <div class="h-badge"><span class="dot"></span>Propuesta de Inversión Privada · 2025</div>
+      <h1>Construcción <em>industrializada</em><br>en las Islas Baleares.</h1>
+      <p class="hero-desc">
+        Hub CUEVA Menorca es la primera planta de producción CUEVA en las Islas Baleares. Un proyecto operativo en marcha, con estructura societaria definida, cartera inicial activa y modelo financiero probado sobre capacidad instalada real.
+      </p>
+      <div class="hero-btns">
+        <a href="#inversion" class="btn btn-dk">Ver mi retorno →</a>
+        <a href="#finanzas" class="btn btn-lt">Proyecciones 5 años</a>
+      </div>
+      <div class="hero-kpi">
+        <div class="hk"><strong>-75%</strong><span>Tiempo en obra</span></div>
+        <div class="hk"><strong>-85%</strong><span>Emisiones CO₂</span></div>
+        <div class="hk"><strong>±2 mm</strong><span>Tolerancia</span></div>
+        <div class="hk"><strong>100%</strong><span>Trazabilidad</span></div>
+      </div>
+    </div>
+
+    <div class="hero-r">
+      <!-- VIDEO: coloca el archivo en la misma carpeta que este HTML -->
+      <div class="hero-img-wrap">
+        <video autoplay muted loop playsinline>
+          <source src="./EDRO - Video introductorio - 28032021.mp4" type="video/mp4">
+        </video>
+        <div class="hero-img-ov"></div>
+        <div class="hero-img-tag">OADAC · Sistema CUEVA · Menorca</div>
+      </div>
+      <div class="hero-mini">
+        <div class="hm"><strong>Fab Menorca</strong><span>Pref. Ciutadella</span></div>
+        <div class="hm"><strong>Montaje</strong><span>Blau Construcción</span></div>
+        <div class="hm"><strong>iHub Market</strong><span>Catálogo online</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-data">
+    <div class="hd"><strong>14,2M€</strong><span>Ingresos 5 años</span></div>
+    <div class="hd acc"><strong>3,73M€</strong><span>EBITDA acumulado</span></div>
+    <div class="hd"><strong>26,3%</strong><span>Margen EBITDA</span></div>
+    <div class="hd"><strong>1.260m²</strong><span>Cap. mensual</span></div>
+    <div class="hd acc"><strong>×3,24</strong><span>Multiplicador</span></div>
+    <div class="hd"><strong>Año 1</strong><span>Primer retorno</span></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-t">
+    <div class="mq-i">Licencia CUEVA · Baleares<span class="mq-d"></span>Prefabricados Ciutadella<span class="mq-d"></span>Blau Construcción Innovadora<span class="mq-d"></span>RFID Embebido<span class="mq-d"></span>Blockchain<span class="mq-d"></span>Digital Twins<span class="mq-d"></span>AGV Auditoría<span class="mq-d"></span>MOOLDE<span class="mq-d"></span>LEGOBLOCK<span class="mq-d"></span>Junta Seca<span class="mq-d"></span>DPP Pasaporte Digital<span class="mq-d"></span>BIM 6D<span class="mq-d"></span>iHub Marketplace<span class="mq-d"></span>Son Parc · Menorca · En curso<span class="mq-d"></span>Hub CUEVA Menorca</div>
+    <div class="mq-i">Licencia CUEVA · Baleares<span class="mq-d"></span>Prefabricados Ciutadella<span class="mq-d"></span>Blau Construcción Innovadora<span class="mq-d"></span>RFID Embebido<span class="mq-d"></span>Blockchain<span class="mq-d"></span>Digital Twins<span class="mq-d"></span>AGV Auditoría<span class="mq-d"></span>MOOLDE<span class="mq-d"></span>LEGOBLOCK<span class="mq-d"></span>Junta Seca<span class="mq-d"></span>DPP Pasaporte Digital<span class="mq-d"></span>BIM 6D<span class="mq-d"></span>iHub Marketplace<span class="mq-d"></span>Son Parc · Menorca · En curso<span class="mq-d"></span>Hub CUEVA Menorca</div>
+  </div>
+</div>
+
+<!-- ═══════════ OPORTUNIDAD ═══════════ -->
+<section id="oportunidad" class="sec">
+  <div class="wrap">
+    <div class="opp-head rv">
+      <div>
+        <div class="lbl">La Oportunidad</div>
+        <h2 class="sh">Menorca. Baleares.<br><em>Un mercado con posición propia.</em></h2>
+      </div>
+      <p class="sp">La construcción industrializada con producción local resuelve dos de los principales problemas del mercado balear: los plazos de obra y los costes logísticos de importar desde la península. OADAC opera con exclusividad territorial en Baleares.</p>
+    </div>
+
+    <div class="opp-img-row rv d1">
+      <div class="opp-img">
+        <img src="./Placa en Autogrúa.JPG" alt="Placa prefabricada CUEVA en autogrúa — Hub Menorca" style="object-fit:contain;background:#f1f2f4">
+        <div class="opp-img-tag">Hub CUEVA Menorca · Producción activa</div>
+      </div>
+      <div class="opp-img">
+        <img src="./Descarga Camión Autogrúa 120 tn.jpg" alt="Descarga autogrúa 120 tn — Prefabricados Ciutadella">
+        <div class="opp-img-tag">Logística local · Sin flete peninsular</div>
+      </div>
+    </div>
+
+    <div class="opp-grid rv d2">
+      <div class="opp-c">
+        <div class="opp-n">01</div>
+        <h3>Exclusividad territorial en Baleares</h3>
+        <p>PREFABRICADOS CIUTADELLA S.L.U. opera con licencia exclusiva de la tecnología CUEVA en el archipiélago balear. No existe —ni puede existir— otro productor CUEVA en Menorca, Mallorca, Ibiza o Formentera.</p>
+        <div class="opp-stat">
+          <strong>100%</strong>
+          <span>Exclusiva · Todo el archipiélago</span>
+        </div>
+      </div>
+      <div class="opp-c">
+        <div class="opp-n">02</div>
+        <h3>Producción local, coste competitivo</h3>
+        <p>Fabricar en Menorca elimina el coste logístico de importar elementos prefabricados desde la península. Una ventaja estructural de costes frente a cualquier competidor que opere desde fuera del archipiélago.</p>
+        <div class="opp-stat">
+          <strong>+40%</strong>
+          <span>Ahorro vs. producción + flete peninsular</span>
+        </div>
+      </div>
+      <div class="opp-c">
+        <div class="opp-n">03</div>
+        <h3>Proyecto en marcha, no en papel</h3>
+        <p>Son Parc (16 viviendas en Ciutadella) es la primera implementación completa. La planta fabrica, Blau Construcción monta en obra y el sistema AGV de auditoría registra cada elemento en blockchain.</p>
+        <div class="opp-stat">
+          <strong>3–5×</strong>
+          <span>Velocidad vs. construcción tradicional</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="opp-stats rv d3">
+      <div class="os"><strong>1.260</strong><em>m² / mes capacidad</em><div class="tag">Hub Menorca</div></div>
+      <div class="os"><strong>28</strong><em>Moldes reutilizables</em><div class="tag">Ciclo 2 semanas</div></div>
+      <div class="os"><strong>4</strong><em>Unidades de negocio</em><div class="tag">Fab · Montaje · Consultoría · iHub</div></div>
+      <div class="os"><strong>50K m²</strong><em>Capacidad instalada fab</em><div class="tag">Pref. Ciutadella</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="hl"></div>
+
+<!-- ═══════════ TECNOLOGÍA ═══════════ -->
+<section id="tech" class="sec">
+  <div class="wrap">
+    <div class="tech-top rv">
+      <div>
+        <div class="lbl">Sistema CUEVA</div>
+        <h2 class="sh">Prefabricación con<br><em>trazabilidad total.</em></h2>
+      </div>
+      <p class="sp">Cada elemento producido en el Hub lleva chip RFID embebido, registro en blockchain y pasaporte digital (DPP). El sistema incluye Digital Twins sincronizados y auditoría autónoma AGV en planta.</p>
+    </div>
+
+    <div class="tech-grid">
+      <div class="tech-items">
+        <div class="ti rv d1">
+          <div class="ti-n">01</div>
+          <div class="ti-body">
+            <h4>Forjados Prefabricados</h4>
+            <p>Losas de forjado producidas con moldes de precisión reutilizables. Reducción significativa del tiempo de montaje en obra. RFID embebido y registro de calidad por elemento.</p>
+            <div class="ti-price">205 €/m²</div>
+            <div class="ti-tags"><span class="ti-tag">RFID</span><span class="ti-tag">Blockchain</span><span class="ti-tag">DPP</span></div>
+          </div>
+        </div>
+        <div class="ti rv d2">
+          <div class="ti-n">02</div>
+          <div class="ti-body">
+            <h4>Fachadas Industrializadas</h4>
+            <p>Paneles con instalaciones integradas y acabados integrales. Producción seriada con control de calidad constante. Optimizados para el clima mediterráneo y la normativa balear.</p>
+            <div class="ti-price">195 €/m²</div>
+            <div class="ti-tags"><span class="ti-tag">Digital Twin</span><span class="ti-tag">LEGOBLOCK</span><span class="ti-tag">Junta Seca</span></div>
+          </div>
+        </div>
+        <div class="ti rv d3">
+          <div class="ti-n">03</div>
+          <div class="ti-body">
+            <h4>Infraestructura y Urbanización</h4>
+            <p>Elementos prefabricados para obra civil y urbanización. Adaptados a los requerimientos específicos de proyectos de inversión pública en el archipiélago.</p>
+            <div class="ti-price">135 €/m²</div>
+            <div class="ti-tags"><span class="ti-tag">MOOLDE</span><span class="ti-tag">AGV</span><span class="ti-tag">BIM 6D</span></div>
+          </div>
+        </div>
+        <div class="ti rv d4">
+          <div class="ti-n">04</div>
+          <div class="ti-body">
+            <h4>iHub — Canal de Comercialización</h4>
+            <p>Plataforma digital de comercialización exclusiva para el mercado balear. Catálogo online con presupuestador integrado, gestión de pedidos y trazabilidad en tiempo real.</p>
+            <div class="ti-price">Canal propio</div>
+            <div class="ti-tags"><span class="ti-tag">B2B</span><span class="ti-tag">Online</span><span class="ti-tag">Baleares</span></div>
+          </div>
+        </div>
+
+        <div class="tp-metrics rv d5">
+          <div class="tm"><strong>-75%</strong><span>Tiempo en obra</span></div>
+          <div class="tm"><strong>-85%</strong><span>CO₂</span></div>
+          <div class="tm"><strong>50×</strong><span>Ciclos MOOLDE</span></div>
+          <div class="tm"><strong>8×</strong><span>Velocidad LEGOBLOCK</span></div>
+        </div>
+      </div>
+
+      <div class="tech-panel">
+        <div class="tp-main rv d2">
+          <h3>Posición de partida <em>consolidada.</em></h3>
+          <p>El Hub arranca con planta productiva activa, proyecto piloto Son Parc en ejecución, Show Room CUEVA operativo en Menorca y equipo técnico formado. La combinación de socio local (Valeriano), fabricante (Pref. Ciutadella) y equipo de montaje (Blau) está operativa.</p>
+          <div class="tp-list">
+            <div class="tp-li">Licencia CUEVA exclusiva para las Islas Baleares</div>
+            <div class="tp-li">Blau Construcción Innovadora — montaje certificado en obra</div>
+            <div class="tp-li">Prefabricados Ciutadella — planta de 50.000 m² operativa</div>
+            <div class="tp-li">Show Room CUEVA activo en Menorca</div>
+            <div class="tp-li">Sistema RFID + Blockchain + DPP Pasaporte por elemento</div>
+            <div class="tp-li">Digital Twins + AGV de auditoría autónoma en planta</div>
+            <div class="tp-li">Primer proyecto: 16 viviendas Son Parc en curso 2025</div>
+          </div>
+          <!-- neurona: representa el sistema inteligente/trazabilidad -->
+          <div style="margin-top:1.2rem;overflow:hidden;border-radius:2px;height:120px;position:relative;opacity:.35">
+            <img src="./neurona 2.jpg" alt="Sistema inteligente OADAC" style="width:100%;height:100%;object-fit:cover;filter:grayscale(1)">
+            <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,11,16,.9),rgba(8,11,16,.2))"></div>
+            <span style="position:absolute;bottom:.5rem;left:.7rem;font-family:var(--mono);font-size:.42rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35)">RFID · Blockchain · Digital Twins · AGV</span>
+          </div>
+        </div>
+        <div class="tp-img-grid rv d3">
+          <div class="tp-img">
+            <img src="./Forjado Sanitario.jpg" alt="Forjado Sanitario Prefabricado CUEVA">
+            <div class="tp-img-lbl">Forjado Sanitario · Pref. Ciutadella</div>
+          </div>
+          <div class="tp-img">
+            <img src="./Agv.png" alt="AGV Auditoría autónoma OADAC">
+            <div class="tp-img-lbl">AGV Auditoría · Trazabilidad en planta</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hl"></div>
+
+<!-- ═══════════ ESTRUCTURA ═══════════ -->
+<section id="modelo" class="sec">
+  <div class="wrap">
+    <div class="modelo-head rv">
+      <div>
+        <div class="lbl">Modelo y Estructura</div>
+        <h2 class="sh">Dos sociedades.<br><em>Una estrategia balear.</em></h2>
+      </div>
+      <p class="sp">Estructura dual: sociedad operativa Hub CUEVA Menorca (50/50 con Valeriano) y holding estratégica OADAC Baleares. El inversor obtiene participación en ambas con derechos económicos plenos desde el primer año.</p>
+    </div>
+
+    <div class="modelo-grid rv d1">
+      <div class="mc">
+        <div class="mc-badge">Sociedad Operativa · 50/50</div>
+        <h3>Hub CUEVA Menorca</h3>
+        <p>Joint venture entre OADAC y Valeriano. Gestiona toda la producción, ventas, montaje y operaciones del Hub. El inversor recibe el <strong>16% de los beneficios netos de la participación OADAC</strong>, equivalente al 16% del total del Hub.</p>
+        <div class="mc-list">
+          <div class="mc-li">OADAC aporta: tecnología CUEVA, licencia (14€/m²), gestión</div>
+          <div class="mc-li">Valeriano aporta: instalaciones, materiales (99€/m²) y red comercial</div>
+          <div class="mc-li">Servicio OADAC: 45€/m² (incluye 14€/m² licencia)</div>
+          <div class="mc-li">70% del beneficio neto se distribuye · 30% a reinversión</div>
+        </div>
+      </div>
+      <div class="mc">
+        <div class="mc-badge">Holding Estratégica</div>
+        <h3>OADAC Baleares</h3>
+        <p>Sociedad holding que centraliza la actividad de OADAC en el archipiélago. El inversor obtiene el <strong>8% del capital permanente</strong> con plenos derechos económicos sobre todos los proyectos del grupo en Baleares.</p>
+        <div class="mc-list">
+          <div class="mc-li">Beneficio adicional estimado: 15.000–20.000€ anuales</div>
+          <div class="mc-li">Voto consultivo en decisiones estratégicas del grupo</div>
+          <div class="mc-li">Participación en expansión: Mallorca, Ibiza, Formentera</div>
+          <div class="mc-li">Reporting financiero trimestral completo</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.4rem" class="rv d2">
+      <div class="sh-wrap">
+        <div class="sh-title">Distribución Accionarial · OADAC Baleares</div>
+        <div class="sh-rows">
+          <div class="sh-row">
+            <span class="sh-label">OADAC Corp</span>
+            <div class="sh-track"><div class="sh-fill oadac" id="sh1" style="width:0"></div></div>
+            <span class="sh-pct">79%</span>
+          </div>
+          <div class="sh-row">
+            <span class="sh-label inv-label">★ Este Inversor</span>
+            <div class="sh-track"><div class="sh-fill inv" id="sh2" style="width:0"></div></div>
+            <span class="sh-pct inv-pct">8%</span>
+          </div>
+          <div class="sh-row">
+            <span class="sh-label">Medhi / Blau</span>
+            <div class="sh-track"><div class="sh-fill blau" id="sh3" style="width:0"></div></div>
+            <span class="sh-pct">8%</span>
+          </div>
+          <div class="sh-row">
+            <span class="sh-label">Inversor Privado OADAC</span>
+            <div class="sh-track"><div class="sh-fill priv" id="sh4" style="width:0"></div></div>
+            <span class="sh-pct">5%</span>
+          </div>
+        </div>
+      </div>
+      <div class="dest-wrap">
+        <div class="dest-title">Destino de los 200.000€</div>
+        <div class="dest-rows">
+          <div class="dest-row">
+            <span class="dest-lbl">Maquinaria y Moldes</span>
+            <div class="dest-track"><div class="dest-bar" style="width:30%"></div></div>
+            <span class="dest-amt">60.000€</span>
+          </div>
+          <div class="dest-row">
+            <span class="dest-lbl">Show Room e Instalaciones</span>
+            <div class="dest-track"><div class="dest-bar" style="width:30%"></div></div>
+            <span class="dest-amt">60.000€</span>
+          </div>
+          <div class="dest-row">
+            <span class="dest-lbl">RFID, Blockchain y Licencias</span>
+            <div class="dest-track"><div class="dest-bar" style="width:20%"></div></div>
+            <span class="dest-amt">40.000€</span>
+          </div>
+          <div class="dest-row">
+            <span class="dest-lbl">Equipo, Empresa y Marketing</span>
+            <div class="dest-track"><div class="dest-bar" style="width:20%"></div></div>
+            <span class="dest-amt">40.000€</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rv d3">
+      <div class="lbl" style="margin-bottom:.7rem">Potencial de Expansión — El 8% en OADAC Baleares incluye</div>
+      <div class="islands">
+        <div class="isl">
+          <h4>Menorca</h4>
+          <div class="i-sub">Hub CUEVA · Activo</div>
+          <div style="margin:.7rem 0;overflow:hidden;border-radius:2px;height:90px;position:relative">
+            <img src="./Son Parc Portada.PNG" alt="Son Parc Menorca" style="width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)">
+            <div style="position:absolute;bottom:.35rem;left:.4rem;font-family:var(--mono);font-size:.38rem;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:rgba(8,11,16,.65);padding:.15rem .4rem;border-radius:1px">Son Parc · En curso 2025</div>
+          </div>
+          <p>Primera implementación del Hub. Fabricación activa, Show Room operativo y primer proyecto, Son Parc, con 16 viviendas en ejecución.</p>
+          <span class="isl-tag">Hub Operativo</span>
+        </div>
+        <div class="isl">
+          <h4>Mallorca</h4>
+          <div class="i-sub">Siguiente fase</div>
+          <div style="margin:.7rem 0;overflow:hidden;border-radius:2px;height:90px;position:relative">
+            <img src="./Portada.png" alt="Mallorca — expansión OADAC Baleares" style="width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)">
+            <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,11,16,.5),transparent)"></div>
+            <span style="position:absolute;bottom:.35rem;left:.4rem;font-family:var(--mono);font-size:.38rem;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:rgba(8,11,16,.6);padding:.15rem .4rem;border-radius:1px">Pipeline 2026</span>
+          </div>
+          <p>Mayor mercado de las Baleares. Concentración de proyectos residenciales, hoteleros y de vivienda protegida con demanda de soluciones industrializadas.</p>
+          <span class="isl-tag">Pipeline 2026</span>
+        </div>
+        <div class="isl">
+          <h4>Ibiza · Formentera</h4>
+          <div class="i-sub">Expansión estratégica</div>
+          <div style="margin:.7rem 0;overflow:hidden;border-radius:2px;height:90px;position:relative">
+            <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80" alt="Vivienda de lujo frente al mar — Ibiza" style="width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)">
+            <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,11,16,.5),transparent)"></div>
+            <span style="position:absolute;bottom:.35rem;left:.4rem;font-family:var(--mono);font-size:.38rem;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:rgba(8,11,16,.6);padding:.15rem .4rem;border-radius:1px">Alto Valor Añadido</span>
+          </div>
+          <p>Mercado de alto valor añadido. Proyectos de rehabilitación y nueva planta donde la eficiencia de producción local aporta ventaja de coste y plazo.</p>
+          <span class="isl-tag">Alto Valor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hl"></div>
+
+<!-- ═══════════ PROYECCIONES ═══════════ -->
+<section id="finanzas" class="sec">
+  <div class="wrap">
+    <div class="fin-head rv">
+      <div>
+        <div class="lbl">Proyecciones Financieras</div>
+        <h2 class="sh">Modelo conservador.<br><em>Capacidad instalada real.</em></h2>
+      </div>
+      <p class="sp">Las proyecciones se construyen sobre 1.260 m²/mes de capacidad instalada real y un crecimiento orgánico progresivo. El margen EBITDA se mantiene por encima del 26% durante los cinco años de proyección.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem">
+      <!-- Chart -->
+      <div>
+        <div class="chart-box rv d1">
+          <div class="chart-title">Ingresos vs. EBITDA — Proyección 5 años (€)</div>
+          <div class="bar-chart" id="bChart">
+            <div class="bc-group"><div class="bc-bars">
+              <div class="bc-bar rev" data-target="117" style="height:0"><span class="bc-tip">2,3M€</span></div>
+              <div class="bc-bar eb" data-target="31" style="height:0"><span class="bc-tip">617K€</span></div>
+            </div><span class="bc-year">Año 1</span></div>
+            <div class="bc-group"><div class="bc-bars">
+              <div class="bc-bar rev" data-target="135" style="height:0"><span class="bc-tip">2,7M€</span></div>
+              <div class="bc-bar eb" data-target="36" style="height:0"><span class="bc-tip">709K€</span></div>
+            </div><span class="bc-year">Año 2</span></div>
+            <div class="bc-group"><div class="bc-bars">
+              <div class="bc-bar rev" data-target="145" style="height:0"><span class="bc-tip">2,9M€</span></div>
+              <div class="bc-bar eb" data-target="38" style="height:0"><span class="bc-tip">763K€</span></div>
+            </div><span class="bc-year">Año 3</span></div>
+            <div class="bc-group"><div class="bc-bars">
+              <div class="bc-bar rev" data-target="152" style="height:0"><span class="bc-tip">3,0M€</span></div>
+              <div class="bc-bar eb" data-target="40" style="height:0"><span class="bc-tip">801K€</span></div>
+            </div><span class="bc-year">Año 4</span></div>
+            <div class="bc-group"><div class="bc-bars">
+              <div class="bc-bar rev" data-target="160" style="height:0"><span class="bc-tip">3,2M€</span></div>
+              <div class="bc-bar eb" data-target="42" style="height:0"><span class="bc-tip">839K€</span></div>
+            </div><span class="bc-year">Año 5</span></div>
+          </div>
+          <div class="chart-legend">
+            <div class="cl"><div class="cl-d rev"></div>Ingresos</div>
+            <div class="cl"><div class="cl-d eb"></div>EBITDA</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div>
+        <div class="fin-kpis rv d2">
+          <div class="fk"><strong>14,2M€</strong><span>Ingresos 5 años</span><div class="fk-sub">Crecimiento sostenido año a año</div></div>
+          <div class="fk"><strong>3,73M€</strong><span>EBITDA acumulado</span><div class="fk-sub">Margen >26% todos los años</div></div>
+          <div class="fk"><strong>2,80M€</strong><span>Beneficio neto</span><div class="fk-sub">Tras impuesto de sociedades 25%</div></div>
+          <div class="fk"><strong>1,96M€</strong><span>Beneficio distribuido</span><div class="fk-sub">70% distribuido · 30% reinversión</div></div>
+        </div>
+      </div>
+
+      <div class="table-wrap rv d3">
+        <div class="table-header">Cuenta de resultados proyectada · Hub CUEVA Menorca</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Concepto</th>
+              <th>Año 1</th><th>Año 2</th><th>Año 3</th><th>Año 4</th><th>Año 5</th><th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ingresos Totales</td>
+              <td>2.341K€</td><td>2.693K€</td><td>2.898K€</td><td>3.044K€</td><td>3.190K€</td>
+              <td class="td-acc">14.166K€</td>
+            </tr>
+            <tr>
+              <td>Costes Operativos</td>
+              <td>1.724K€</td><td>1.984K€</td><td>2.135K€</td><td>2.243K€</td><td>2.351K€</td>
+              <td>10.437K€</td>
+            </tr>
+            <tr>
+              <td>EBITDA</td>
+              <td class="td-pos">617K€</td><td class="td-pos">709K€</td><td class="td-pos">763K€</td>
+              <td class="td-pos">801K€</td><td class="td-pos">839K€</td>
+              <td class="td-pos">3.729K€</td>
+            </tr>
+            <tr>
+              <td>Margen EBITDA</td>
+              <td>26,4%</td><td>26,3%</td><td>26,3%</td><td>26,3%</td><td>26,3%</td>
+              <td><strong>26,3%</strong></td>
+            </tr>
+            <tr>
+              <td>Beneficio Neto (−25% IS)</td>
+              <td class="td-pos">463K€</td><td class="td-pos">532K€</td><td class="td-pos">572K€</td>
+              <td class="td-pos">601K€</td><td class="td-pos">629K€</td>
+              <td class="td-pos">2.797K€</td>
+            </tr>
+            <tr class="tr-total">
+              <td>Distribuido a socios (70%)</td>
+              <td class="td-acc">324K€</td><td class="td-acc">372K€</td><td class="td-acc">401K€</td>
+              <td class="td-acc">421K€</td><td class="td-acc">440K€</td>
+              <td class="td-acc">1.958K€</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p style="font-size:.62rem;color:var(--text3);margin-top:.6rem;font-family:var(--mono)">* Proyecciones elaboradas sobre capacidad instalada real y demanda contrastada. No constituyen garantía de resultados futuros. 30% del beneficio neto se destina a reinversión.</p>
+  </div>
+</section>
+
+<div class="hl"></div>
+
+<!-- ═══════════ TU INVERSIÓN ═══════════ -->
+<section id="inversion" class="sec">
+  <div class="wrap">
+    <!-- Big dark header -->
+    <div class="inv-top rv">
+      <div class="inv-top-l">
+        <div class="lbl" style="color:rgba(255,255,255,.2)"><span style="width:18px;height:1px;background:rgba(255,255,255,.15);display:inline-block"></span>Tu Inversión</div>
+        <span class="inv-amount">200.000€</span>
+        <p>Estructura dual diseñada para combinar capital permanente con protección de retorno: 100.000€ en acciones de OADAC Baleares y 100.000€ en crédito recuperable con interés de mercado a cinco años.</p>
+      </div>
+      <div class="inv-top-r">
+        <div class="inv-card">
+          <div class="inv-type">Tramo 1 · Compra de Acciones</div>
+          <div class="inv-amt">100K€</div>
+          <h4>8% Capital OADAC Baleares</h4>
+          <p>Participación permanente con derechos económicos plenos. Dividendos desde el primer año de distribución. Valor ligado al crecimiento del grupo en todo el archipiélago balear.</p>
+        </div>
+        <div class="inv-card">
+          <div class="inv-type">Tramo 2 · Crédito Recuperable</div>
+          <div class="inv-amt">100K€</div>
+          <h4>Retorno a 5 años + interés</h4>
+          <p>Capital recuperado en 5 cuotas anuales iguales de 20.000€. Interés de mercado (~5% anual sobre saldo vivo) aplicado desde el primer año. Recuperación total al cierre del período.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ret-grid rv d1">
+      <div class="ret">
+        <div class="ret-n">16%</div>
+        <h4>Beneficios Hub CUEVA Menorca</h4>
+        <p>16% sobre el beneficio neto del Hub. Distribuciones anuales a partir del primer año de actividad plena, vinculadas directamente a la producción real del Hub.</p>
+        <span class="ret-amt">~74K€/año (media 5 años)</span>
+      </div>
+      <div class="ret">
+        <div class="ret-n">8%</div>
+        <h4>Dividendos OADAC Baleares</h4>
+        <p>Participación permanente del 8% en la holding. Ingreso adicional estimado de 15.000–20.000€ anuales, independiente del Hub Menorca. Crece con la expansión del grupo.</p>
+        <span class="ret-amt">~17K€/año estimado</span>
+      </div>
+      <div class="ret">
+        <div class="ret-n">+€</div>
+        <h4>Recuperación del Crédito</h4>
+        <p>100.000€ devueltos en 5 cuotas iguales de 20.000€/año más interés de mercado sobre saldo vivo. Capital recuperado íntegramente al quinto año.</p>
+        <span class="ret-amt">20K€/año + intereses</span>
+      </div>
+    </div>
+
+    <div class="rt-wrap rv d2">
+      <div class="rt-hdr">Estimación de Retornos para el Inversor — Proyección Año a Año</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Año 1</th><th>Año 2</th><th>Año 3</th><th>Año 4</th><th>Año 5</th>
+            <th>Total 5 años</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>16% Bº Neto Hub Menorca</td>
+            <td class="td-acc">74.040€</td><td class="td-acc">85.080€</td>
+            <td class="td-acc">91.584€</td><td class="td-acc">96.120€</td>
+            <td class="td-acc">100.656€</td><td class="td-acc">447.480€</td>
+          </tr>
+          <tr>
+            <td>8% OADAC Baleares (estimado)</td>
+            <td>15.000€</td><td>16.000€</td><td>17.000€</td><td>18.500€</td><td>20.000€</td>
+            <td>86.500€</td>
+          </tr>
+          <tr>
+            <td>Recuperación crédito (1/5)</td>
+            <td>20.000€</td><td>20.000€</td><td>20.000€</td><td>20.000€</td><td>20.000€</td>
+            <td>100.000€</td>
+          </tr>
+          <tr>
+            <td>Intereses crédito (~5% s/saldo)</td>
+            <td>5.000€</td><td>4.000€</td><td>3.000€</td><td>2.000€</td><td>1.000€</td>
+            <td>15.000€</td>
+          </tr>
+          <tr class="rt-total">
+            <td>FLUJO TOTAL AL INVERSOR</td>
+            <td>114.040€</td><td>125.080€</td><td>131.584€</td><td>136.620€</td><td>141.656€</td>
+            <td class="td-acc" style="font-size:.85rem">648.980€</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="roi-strip rv d3">
+      <div class="roi-i hl"><strong>649K€</strong><span>Flujo total estimado 5 años</span></div>
+      <div class="roi-i hl2"><strong>×3,24</strong><span>Multiplicador sobre inversión</span></div>
+      <div class="roi-i"><strong>Año 1</strong><span>Primera distribución</span></div>
+      <div class="roi-i"><strong>8%</strong><span>Capital permanente en OADAC Baleares</span></div>
+    </div>
+
+    <div class="vote rv d4">
+      <div class="vote-ic">🗳️</div>
+      <div>
+        <h4>Voto Consultivo en OADAC Baleares</h4>
+        <p>El inversor tiene voto consultivo reconocido en el órgano de gobierno de OADAC Baleares. Participación activa en decisiones de expansión, política de distribución de beneficios y hoja de ruta estratégica del grupo. Reporting financiero trimestral y acceso a información de gestión completa.</p>
+      </div>
+    </div>
+
+    <p style="font-size:.62rem;color:var(--text3);margin-top:1rem;font-family:var(--mono)">* Estimaciones basadas en proyecciones financieras sobre capacidad instalada real. Los retornos incluyen recuperación de capital (crédito). Las cifras no garantizan resultados futuros. Documento de carácter estrictamente confidencial.</p>
+  </div>
+</section>
+
+<!-- CIERRE VISUAL -->
+<div style="position:relative;width:100%;height:420px;overflow:hidden;z-index:2">
+  <img src="./Prefabricado.jpg" alt="Prefabricado CUEVA — Hub Menorca"
+       style="width:100%;height:100%;object-fit:cover;object-position:center;filter:grayscale(.08)">
+  <div style="position:absolute;inset:0;background:linear-gradient(to right, rgba(8,11,16,.72) 0%, rgba(8,11,16,.3) 50%, rgba(8,11,16,.1) 100%)"></div>
+  <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 2.5rem;max-width:1200px;margin:0 auto;left:0;right:0">
+    <div>
+      <div style="font-family:var(--mono);font-size:.48rem;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.35);display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem">
+        <span style="width:18px;height:1px;background:var(--accent);display:inline-block"></span>Hub CUEVA Menorca · En producción
+      </div>
+      <div style="font-family:'Instrument Sans',sans-serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:700;letter-spacing:-1.5px;color:#fff;line-height:1.08;max-width:560px">
+        Construimos el presente.<br>
+        <span style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--accent)">Tú participas del resultado.</span>
+      </div>
+      <div style="font-family:var(--mono);font-size:.52rem;letter-spacing:2px;color:rgba(255,255,255,.3);margin-top:1rem;text-transform:uppercase">
+        oadac.com · Islas Baleares, España
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ftr-grid">
+    <div>
+      <div class="ftr-brand">
+        <div class="n-icon"></div>
+        <span>OADAC</span>
+      </div>
+      <p class="ftr-desc">Organización Descentralizada de Activos Constructivos. Licenciataria exclusiva del sistema CUEVA para las Islas Baleares. Fabricación en Menorca, montaje con precisión, comercialización a través de iHub.</p>
+    </div>
+    <div class="ftr-col">
+      <h5>Documento</h5>
+      <a href="#oportunidad">La Oportunidad</a>
+      <a href="#tech">Tecnología CUEVA</a>
+      <a href="#modelo">Estructura</a>
+      <a href="#finanzas">Proyecciones</a>
+      <a href="#inversion">Tu Inversión</a>
+    </div>
+    <div class="ftr-col">
+      <h5>Ecosistema OADAC</h5>
+      <a href="#">Hub CUEVA Menorca</a>
+      <a href="#">OADAC Baleares</a>
+      <a href="#">iHub Marketplace</a>
+      <a href="#">Blau Construcción</a>
+      <a href="#">Pref. Ciutadella</a>
+    </div>
+    <div class="ftr-col">
+      <h5>Contacto</h5>
+      <a href="#">oadac.com</a>
+      <a href="#">Hub Menorca · Ciutadella</a>
+      <a href="#">Islas Baleares, España</a>
+    </div>
+  </div>
+  <div class="ftr-bot">
+    <span class="ftr-copy">© 2025 OADAC · Todos los derechos reservados</span>
+    <div class="ftr-conf">🔒 Estrictamente Confidencial</div>
+  </div>
+</footer>
+
+<script>
+// ── LOADER — dismiss after 2.4s regardless of load event ──
+(function(){
+  var dismiss = function(){ document.getElementById('ld').classList.add('done'); };
+  var t = setTimeout(dismiss, 2400);
+  // Also try on DOMContentLoaded and load as backups
+  document.addEventListener('DOMContentLoaded', function(){ clearTimeout(t); setTimeout(dismiss, 2400); });
+  window.addEventListener('load', function(){ clearTimeout(t); setTimeout(dismiss, 400); });
+  // Safety: click on loader also dismisses
+  document.getElementById('ld').addEventListener('click', dismiss);
+})();
+
+// ── SCROLL PROGRESS + NAV SCROLL CLASS ──
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var pct = (window.scrollY / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('sbar').style.width = pct + '%';
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ── REVEAL ON SCROLL ──
+var revealIO = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(function(el){ revealIO.observe(el); });
+
+// ── BAR CHART ANIMATION ──
+var bDone = false;
+var bChart = document.getElementById('bChart');
+if(bChart){
+  var barIO = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting && !bDone){
+      bDone = true;
+      var bars = document.querySelectorAll('#bChart .bc-bar');
+      bars.forEach(function(b, i){
+        setTimeout(function(){
+          b.style.transition = 'height .8s cubic-bezier(.16,1,.3,1)';
+          b.style.height = b.dataset.target + 'px';
+        }, i * 70);
+      });
+    }
+  }, { threshold: 0.3 });
+  barIO.observe(bChart);
+}
+
+// ── SHAREHOLDING BARS ──
+var shWrap = document.querySelector('.sh-wrap');
+if(shWrap){
+  var shDone = false;
+  var shIO = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting && !shDone){
+      shDone = true;
+      var items = [{id:'sh1',w:79},{id:'sh2',w:8},{id:'sh3',w:8},{id:'sh4',w:5}];
+      items.forEach(function(item, i){
+        var el = document.getElementById(item.id);
+        if(el) setTimeout(function(){
+          el.style.transition = 'width 1s cubic-bezier(.16,1,.3,1)';
+          el.style.width = item.w + '%';
+        }, i * 120 + 200);
+      });
+    }
+  }, { threshold: 0.4 });
+  shIO.observe(shWrap);
+}
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// ── NAV ACTIVE STATE ──
+var secs = document.querySelectorAll('section[id]');
+var nls  = document.querySelectorAll('.n-links a[href^="#"]');
+window.addEventListener('scroll', function(){
+  var cur = '';
+  secs.forEach(function(s){ if(window.scrollY >= s.offsetTop - 130) cur = s.id; });
+  nls.forEach(function(a){
+    a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--black)' : 'var(--text3)';
+  });
+});
+</script>
+</body>
+</html>
